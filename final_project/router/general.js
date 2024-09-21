@@ -8,6 +8,10 @@ const public_users = express.Router();
 public_users.post("/register", (req, res) => {
   const { username, password } = req.body;
 
+  if (!username || !password) {
+    return res.status(400).json({ message: "Username and password are required" });
+  }
+
   if (isValid(username)) {
     return res.status(409).json({ message: "Username already exists" });
   } else {
@@ -21,7 +25,7 @@ async function getBooksList() {
     if (books) {
       resolve(books); // Resolvemos con la lista de libros
     } else {
-      reject("Not books were founded.");
+      reject("No books were found.");
     }
   });
 }
